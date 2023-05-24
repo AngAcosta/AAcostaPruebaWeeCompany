@@ -1,0 +1,238 @@
+﻿@model ML.Numero
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Numeros</h2>
+    <br />*@
+
+@*<div>
+            @using (Html.BeginForm("Form", "Numero", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row g-3" id="input" style="display:none;">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <div class="row">
+                                @Html.LabelFor(model => model.NumeroU)
+                                @Html.TextBoxFor(model => model.NumeroU, new { @class = "visually-hidden form-control" })
+                                @Html.ValidationMessageFor(model => model.NumeroU)
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                @Html.LabelFor(model => model.NumeroU)
+                                @Html.TextBoxFor(model => model.NumeroU, new { @class = "visually-hidden form-control" })
+                                @Html.ValidationMessageFor(model => model.NumeroU)
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                @Html.LabelFor(model => model.NumeroU)
+                                @Html.TextBoxFor(model => model.NumeroU, new { @class = "visually-hidden form-control" })
+                                @Html.ValidationMessageFor(model => model.NumeroU)
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                @Html.LabelFor(model => model.NumeroU)
+                                @Html.TextBoxFor(model => model.NumeroU, new { @class = "visually-hidden form-control" })
+                                @Html.ValidationMessageFor(model => model.NumeroU)
+                            </div>
+                            <br />
+
+                            <div class="center-block ">
+                                <button class="btn btn-info" type="submit">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-md-3" style="float:right">
+                <a><input id="idAgregar" type="submit" value="Agregar" class="btn btn-info col-md-4" onclick="" /></a>
+            </div>
+        </div>
+    <br />*@
+
+@*<div>
+        <div class="row g-3" id="input" style="display:none;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="row">
+                        @Html.LabelFor(model => model.NumeroU)
+                        @Html.TextBoxFor(model => model.NumeroU, new { @class = "visually-hidden form-control", @id = "txtNumero" })
+                        @Html.ValidationMessageFor(model => model.NumeroU)
+                    </div>
+                    <br />
+
+                    <div class="center-block ">
+                        <button class="btn btn-info" type="submit">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="float:right">
+            <a><input id="idAgregar" type="submit" value="Agregar" class="btn btn-info col-md-4" onclick="Agregar" /></a>
+        </div>
+    </div>
+    <br />*@
+
+
+
+@*<div class="container">
+        <div class="container">
+            <table class="table table-bordered table-hover table-responsive" id="tableNumero">
+                <thead>
+                    <tr>
+                        <td class="text-center">Numero</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+
+        <div class="row">
+            <div>
+                @Html.LabelFor(model => model.max)
+                @Html.TextBoxFor(model => model.max)
+            </div>
+            <br />
+
+            <div>
+                @Html.LabelFor(model => model.min)
+                @Html.TextBoxFor(model => model.min)
+            </div>
+        </div>
+    </div>*@
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Numeros</h1>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div>
+                <input type="text" class="form-control" id="txtNumero" />
+                @Html.Label("", null, new { @id = "lblSoloNumeros" })
+            </div>
+        </div>
+
+        <div class="col-md-3" style="float:left">
+            <input type="button" class="btn btn-info" value="Guardar" onclick="Agregar()" />
+        </div>
+
+        <div class="col-md-3">
+            <div>
+                <input type="text" class="form-control" id="txtValor" disabled="disabled" />
+                @Html.Label("", null, new { @id = "lblSoloNumeros1" })
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+    <div>
+        <input type="button" class="btn btn-success" value="Comparar" onclick="Comparar()" />
+    </div>
+    <br />
+
+    <div style="text-align:center;">
+
+        <table class="tale table-responsive table-bordered table-hover" id="table_numeros">
+            <tbody></tbody>
+        </table>
+
+    </div>
+    <br />
+
+    <div>
+
+        <label id="lblMax">Numero Max: <h6></h6></label>
+        <br />
+        <label id="lblMin">Numero Min: <h6></h6></label>
+
+    </div>
+    <br />
+
+    <div>
+        <button type="button" class="btn btn-danger" id="btnClear" onclick="Clean()">Limpiar Tabla</button>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function Agregar() {
+            var numero = $("#txtNumero").val();
+            var fila = "<tr>"
+                + "<td>" + numero + "<td/>"
+                + "</tr>";
+
+            $("#table_numeros tbody").append(fila);
+            $("#txtValor").val(numero);
+            $("#txtNumero").val("");
+        }
+
+        function Comparar() {
+
+            $("#lblMax h6").val("");
+            $("#lblMin h6").val("");
+
+            var numero = $("#txtNumero").val();
+
+            var valor = $("#txtValor").val();
+
+            var array = [numero, valor];
+
+            var minval = Math.min.apply(null,array)
+
+            var maxval = Math.max.apply(null,array)
+
+            array.sort((a, b) => b - a);
+
+            $("#lblMax h6").append(maxval);
+            $("#lblMin h6").append(minval);
+            //-------------------------------------------
+
+            //var tabla = document.getElementById("table_numeros");
+            //var filas = tabla.rows;
+
+            //var datos = [];
+
+            //for (var i = 0; i < filas.length; i++) {
+
+            //    var celdas = filas[i].cells;
+
+            //    var filaDatos = [];
+
+            //    for (var j = 0; j < celdas.length; j++) {
+
+            //        filaDatos.push(celdas[j].innerHTML);
+            //    }
+            //    datos.push(filaDatos);
+            //}
+            //var valor = datos[i][j];
+
+            //var lbl = valor
+
+            //$("#lblMax h6").append(lbl);
+            //$("#lblMin h6").append(lbl);
+        }
+
+        function Clean() {
+            $('#table_numeros tbody').empty();
+        }
+    </script>
+}
